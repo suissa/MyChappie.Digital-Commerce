@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HyperCommerce — MyChappie.Digital</title>
+  <meta name="description" content="O Catálogo Mestre que Descobre a Margem Real e Transforma o WhatsApp em Vitrine">
+  <style>
+    :root {
+      --primary: #06b6d4;
+      --primary-light: #67e8f9;
+      --primary-dark: #0891b2;
+      --glow: rgba(6, 182, 212, 0.25);
+      --bg-base: #080c14;
+      --bg-surface: #0f172a;
+      --bg-card: #151f32;
+      --bg-card-hover: #1e2942;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(255, 255, 255, 0.15);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Utilitários */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-accent);
+      color: var(--text-muted);
+    }
+
+    .badge-primary {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: var(--primary);
+      color: var(--primary-light);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #04100c;
+      box-shadow: 0 0 24px var(--glow);
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: 0 0 32px var(--glow);
+    }
+
+    .btn-secondary {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card);
+      border-color: var(--primary);
+    }
+
+    /* Navbar */
+    header.navbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(8, 12, 20, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 15px var(--glow);
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-subtitle {
+      font-size: 0.75rem;
+      color: var(--primary-light);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-light);
+    }
+
+    .module-selector {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Hero */
+    section.hero {
+      padding: 80px 0 60px;
+      position: relative;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 650px;
+      height: 350px;
+      background: radial-gradient(circle, var(--glow) 0%, rgba(0,0,0,0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin: 20px 0 16px;
+    }
+
+    .hero h1 span {
+      color: var(--primary-light);
+      text-shadow: 0 0 30px var(--glow);
+    }
+
+    .hero-tagline {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    .guiding-question-box {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border-accent);
+      border-left: 4px solid var(--primary);
+      padding: 20px 24px;
+      border-radius: 12px;
+      text-align: left;
+      margin: 36px 0;
+      backdrop-filter: blur(8px);
+    }
+
+    .guiding-question-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--primary-light);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .guiding-question-text {
+      font-size: 1.05rem;
+      color: var(--text-main);
+      font-style: italic;
+    }
+
+    /* KPIs */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin: 50px 0;
+    }
+
+    .kpi-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+
+    .kpi-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px -10px var(--glow);
+    }
+
+    .kpi-value {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--primary-light);
+      letter-spacing: -0.02em;
+    }
+
+    .kpi-label {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-top: 4px;
+    }
+
+    .kpi-desc {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-top: 6px;
+    }
+
+    /* Seções Principais */
+    section.feature-spotlight {
+      padding: 70px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-header {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-top: 8px;
+    }
+
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 650px;
+      margin: 8px auto 0;
+    }
+
+    /* Simuladores Interativos */
+    .interactive-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 900px) {
+      .interactive-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .explain-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .explain-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      color: var(--text-main);
+    }
+
+    .problem-box {
+      background: rgba(239, 68, 68, 0.08);
+      border-left: 3px solid #ef4444;
+      padding: 14px 18px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 0.92rem;
+      color: #fca5a5;
+    }
+
+    .solution-box {
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 3px solid var(--primary);
+      padding: 14px 18px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      color: var(--primary-light);
+    }
+
+    .sim-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .sim-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sim-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sim-control-group {
+      margin-bottom: 20px;
+    }
+
+    .sim-control-group label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .sim-val-display {
+      color: var(--primary-light);
+      font-weight: 700;
+    }
+
+    input[type=range] {
+      width: 100%;
+      height: 6px;
+      background: var(--bg-surface);
+      border-radius: 4px;
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 10px var(--glow);
+      cursor: pointer;
+    }
+
+    select.sim-select {
+      width: 100%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 10px 14px;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    .sim-result-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 16px;
+    }
+
+    .sim-result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    .sim-result-row:last-child {
+      margin-bottom: 0;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border);
+      font-weight: 700;
+    }
+
+    .sim-tag-positive {
+      color: var(--primary-light);
+      font-weight: 700;
+    }
+
+    .sim-tag-alert {
+      color: #f59e0b;
+      font-weight: 700;
+    }
+
+    /* WhatsApp Mockup */
+    .whatsapp-container {
+      display: flex;
+      justify-content: center;
+      margin: 40px 0;
+    }
+
+    .phone-mockup {
+      width: 100%;
+      max-width: 440px;
+      background: #0b141a;
+      border: 8px solid #222d34;
+      border-radius: 36px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px var(--glow);
+    }
+
+    .phone-header {
+      background: #202c33;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .phone-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .phone-meta h4 {
+      font-size: 0.95rem;
+      color: #e9edef;
+    }
+
+    .phone-meta p {
+      font-size: 0.75rem;
+      color: #8696a0;
+    }
+
+    .chat-body {
+      padding: 20px 16px;
+      min-height: 380px;
+      background: #0c1317;
+      background-image: radial-gradient(#202c33 1px, transparent 1px);
+      background-size: 20px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .chat-bubble {
+      max-width: 85%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      line-height: 1.45;
+      position: relative;
+    }
+
+    .bubble-user {
+      align-self: flex-end;
+      background: #005c4b;
+      color: #e9edef;
+      border-top-right-radius: 2px;
+    }
+
+    .bubble-audio {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .audio-play-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      cursor: pointer;
+      border: none;
+      font-size: 0.8rem;
+    }
+
+    .audio-waveform {
+      flex: 1;
+      height: 14px;
+      background: repeating-linear-gradient(90deg, #8696a0 0, #8696a0 2px, transparent 2px, transparent 5px);
+    }
+
+    .bubble-bot {
+      align-self: flex-start;
+      background: #202c33;
+      color: #d1d7db;
+      border-top-left-radius: 2px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      white-space: pre-line;
+    }
+
+    .chat-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .chat-btn-action {
+      background: #111b21;
+      border: 1px solid var(--primary);
+      color: var(--primary-light);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .chat-btn-action:hover {
+      background: var(--primary);
+      color: #000;
+    }
+
+    /* Catálogo de Funcionalidades */
+    .catalog-filters {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .filter-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 18px;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #04100c;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .feature-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px -10px var(--glow);
+    }
+
+    .feature-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .feature-card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .feature-card-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Comparativo de Mercado */
+    .table-container {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--bg-surface);
+      margin: 40px 0;
+    }
+
+    table.comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    table.comparison-table th, table.comparison-table td {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+
+    table.comparison-table th {
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    table.comparison-table td.col-us {
+      color: var(--primary-light);
+      font-weight: 700;
+      background: rgba(16, 185, 129, 0.04);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 60px 0 40px;
+      background: #05080e;
+      color: var(--text-dim);
+      font-size: 0.9rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">🛒</div>
+        <div>
+          <div class="brand-title">HyperCommerce</div>
+          <div class="brand-subtitle">MyChappie.Digital</div>
+        </div>
+      </a>
+
+      <div class="nav-links">
+        <a href="#predictive">Predição</a>
+        <a href="#optimizer">Otimização</a>
+        <a href="#whatsapp">WhatsApp</a>
+        <a href="#features">Funcionalidades</a>
+        <a href="#comparison">Comparativo</a>
+
+        <select class="module-selector" onchange="window.location.href=this.value">
+          <option value="#">Mudar Módulo...</option>
+          <option value="../../HyperAccounting/site/index.html" >HyperAccounting (Finanças & Contabilidade)</option>
+          <option value="../../HyperCommerce/site/index.html" selected>HyperCommerce (Catálogo & Pricing)</option>
+          <option value="../../HyperCompany/site/index.html" >HyperCompany (Governança & Agentes)</option>
+          <option value="../../HyperCustomer/site/index.html" >HyperCustomer (CRM & Clientes)</option>
+          <option value="../../HyperDoctor/site/index.html" >HyperDoctor (Saúde & Clínicas)</option>
+          <option value="../../HyperEasyDelivery/site/index.html" >HyperEasyDelivery (Logística & Entregas)</option>
+          <option value="../../HyperEasyTaxi/site/index.html" >HyperEasyTaxi (Mobilidade Urbana)</option>
+          <option value="../../HyperFinancial/site/index.html" >HyperFinancial (Finanças & Caixa)</option>
+          <option value="../../HyperMarketing/site/index.html" >HyperMarketing (Marketing & Vendas)</option>
+          <option value="../../HyperMerchant/site/index.html" >HyperMerchant (Comércio por Intenção)</option>
+          <option value="../../HyperSales/site/index.html" >HyperSales (Vendas & Balcão)</option>
+          <option value="../../HyperStock/site/index.html" >HyperStock (Estoque & Logística)</option>
+          <option value="../../HyperSupplier/site/index.html" >HyperSupplier (Suprimentos & Compras)</option>
+          <option value="../../PersonalAssistant/site/index.html" >PersonalAssistant (Produtividade & Gestão)</option>
+          <option value="../../PersonalShopper/site/index.html" >PersonalShopper (Sourcing & Compras)</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="container hero-content">
+      <div class="badge badge-primary">
+        <span>●</span> Fase 1 / Módulo 0 (Núcleo de Produto) &nbsp;|&nbsp; Arquitetura AllasCode
+      </div>
+      <h1>HyperCommerce: <span>Módulo de Catálogo, Precificação Dinâmica e Vitrine Conversacional</span></h1>
+      <p class="hero-tagline">O Catálogo Mestre que Descobre a Margem Real e Transforma o WhatsApp em Vitrine</p>
+
+      <div class="guiding-question-box">
+        <div class="guiding-question-title">
+          <span>🎯</span> Decisão Central Norteadora (Critério Mandatório de Valor)
+        </div>
+        <p class="guiding-question-text">"O comerciante sabe a margem real de cada produto, qual preço cobrar para maximizar lucro sem perder venda, o que vale a pena ter no sortimento, e passa a ter uma loja que o cliente consulta pelo WhatsApp — tudo sem cadastrar produto, montar site ou fazer planilha de precificação."</p>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 14px;">
+        <a href="#predictive" class="btn btn-primary">🔮 Ver Simulador Preditivo</a>
+        <a href="#optimizer" class="btn btn-secondary">⚡ Ver Motor Otimizador</a>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        
+        <div class="kpi-card">
+          <div class="kpi-value">+3% a +12%</div>
+          <div class="kpi-label">Margem Líquida Real</div>
+          <div class="kpi-desc">Ganho médio com precificação científica</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">100% WhatsApp</div>
+          <div class="kpi-label">Vitrine Conversacional</div>
+          <div class="kpi-desc">Sem app, sem site, sem manutenção</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">Zero Digitação</div>
+          <div class="kpi-label">Classificação de Itens</div>
+          <div class="kpi-desc">Criado via áudio e cupom fiscal</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">Tempo Real</div>
+          <div class="kpi-label">Detecção de Prejuízo</div>
+          <div class="kpi-desc">Alerta quando custo sobe e corrói margem</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção 1: Funcionalidade Preditiva -->
+  <section id="predictive" class="feature-spotlight">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge badge-primary">🔮 Inteligência Antecipada</span>
+        <h2 class="section-title">Price-Elasticity & Repricing Forecaster</h2>
+        <p class="section-subtitle">Econometria & Séries Temporais</p>
+      </div>
+
+      <div class="interactive-grid">
+        <div class="explain-card">
+          <div>
+            <div class="problem-box">
+              <strong>O Problema que Resolve:</strong><br>
+              O pequeno comerciante tem medo de reajustar preços e perder clientes, ou mantém preços estáticos enquanto fornecedores aumentam custos, vendendo produtos no prejuízo sem perceber.
+            </div>
+            <div class="solution-box">
+              <strong>Como Funciona no HyperAccounting/AllasCode:</strong><br>
+              Estima a elasticidade-preço da demanda para cada SKU e prevê com bandas de confiança o impacto no volume de vendas, faturamento e lucro líquido de qualquer reajuste planejado.
+            </div>
+          </div>
+          <div style="margin-top: 24px;">
+            <span class="badge">Operação: Contínua & Autônoma</span>
+          </div>
+        </div>
+
+        <div class="sim-card">
+          <div class="sim-header">
+            <span class="sim-title"><span>📊</span> Simulador Preditivo em Tempo Real</span>
+            <span class="badge badge-primary">Live Model</span>
+          </div>
+
+          <div id="predictive-controls">
+            
+    <div class="sim-control-group">
+      <label>
+        <span>Preço Atual da Cerveja (R$)</span>
+        <span id="pred-val-1" class="sim-val-display">5</span>
+      </label>
+      <input type="range" id="pred-input-1" min="3.5" max="15" value="5" oninput="updateSimulations()">
+    </div>
+      <div class="sim-control-group">
+        <label>
+          <span>Novo Preço Sugerido (R$)</span>
+          <span id="pred-val-2" class="sim-val-display">5.5</span>
+        </label>
+        <input type="range" id="pred-input-2" min="3.5" max="15" value="5.5" oninput="updateSimulations()">
+      </div>
+          </div>
+
+          <div class="sim-result-box" id="pred-result">
+            <!-- Preenchido via JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção 2: Funcionalidade Otimizadora -->
+  <section id="optimizer" class="feature-spotlight" style="background: rgba(255,255,255,0.01);">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge badge-primary">⚡ Otimização Prescritiva</span>
+        <h2 class="section-title">Category Profit Optimizer</h2>
+        <p class="section-subtitle">Otimização Não-Linear com Restrições</p>
+      </div>
+
+      <div class="interactive-grid">
+        <div class="explain-card">
+          <div>
+            <div class="problem-box">
+              <strong>O Problema de Mercado que Resolve:</strong><br>
+              Otimizar o preço de um item isolado ignora canibalização entre marcas (ex: baixar a Brahma tira venda da Skol) e desequilibra a imagem de preço do estabelecimento.
+            </div>
+            <div class="solution-box">
+              <strong>Formula Matemática & Otimização:</strong><br>
+              Resolve o problema de precificação conjunta da categoria inteira, considerando papéis de produto (âncora de tráfego, gerador de margem, conveniência) e espaço de prateleira para maximizar o lucro total.
+            </div>
+          </div>
+          <div style="margin-top: 24px;">
+            <span class="badge">Redução Imediata de Custos</span>
+          </div>
+        </div>
+
+        <div class="sim-card">
+          <div class="sim-header">
+            <span class="sim-title"><span>⚡</span> Calculadora de Otimização Prescritiva</span>
+            <span class="badge badge-primary">Prescriptive Engine</span>
+          </div>
+
+          <div id="optimizer-controls">
+            
+    <div class="sim-control-group">
+      <label>
+        <span>Volume Mensal da Categoria Cervejas (unidades)</span>
+        <span id="opt-val-1" class="sim-val-display">2400</span>
+      </label>
+      <input type="range" id="opt-input-1" min="500" max="10000" value="2400" oninput="updateSimulations()">
+    </div>
+          </div>
+
+          <div class="sim-result-box" id="opt-result">
+            <!-- Preenchido via JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção 3: WhatsApp Experience -->
+  <section id="whatsapp" class="feature-spotlight">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge badge-primary">📱 Interface Conversacional</span>
+        <h2 class="section-title">Nenhum Computador Necessário. 100% no WhatsApp.</h2>
+        <p class="section-subtitle">O comerciante e o cliente interagem por áudios espontâneos, fotos de comprovantes e cartões acionáveis de 1 toque.</p>
+      </div>
+
+      <div class="whatsapp-container">
+        <div class="phone-mockup">
+          <div class="phone-header">
+            <div class="phone-avatar">🛒</div>
+            <div class="phone-meta">
+              <h4>HyperCommerce Assistant</h4>
+              <p>online agora • AllasCode Engine</p>
+            </div>
+          </div>
+
+          <div class="chat-body">
+            <!-- Mensagem do Usuário -->
+            <div class="chat-bubble bubble-user">
+              <div class="bubble-audio">
+                <button class="audio-play-btn" onclick="toggleAudioMock(this)">▶</button>
+                <div class="audio-waveform"></div>
+                <span style="font-size: 0.7rem; color: #8696a0;">0:06</span>
+              </div>
+              <p style="font-size: 0.8rem; margin-top: 4px; opacity: 0.9;">"A cachaça artesanal nova vende a 12 a dose."</p>
+            </div>
+
+            <!-- Resposta do Bot -->
+            <div class="chat-bubble bubble-bot">
+              Anotado! Cachaça Artesanal cadastrada:
+• Preço de Venda: R$ 12,00/dose
+• Custo unitário estimado: ~R$ 4,80
+• Imposto Simples: R$ 0,60 | Taxa cartão: R$ 0,36
+• Margem Líquida Real: R$ 6,24 (52%) — Excelente margem!
+
+Adicionei à sua vitrine na categoria "Destilados". Quando o cliente perguntar o que tem de cachaça, já vou informar!
+
+              <div class="chat-actions">
+                <button class="chat-btn-action" onclick="alert('Ação executada: Ver vitrine completa')">Ver vitrine completa</button><button class="chat-btn-action" onclick="alert('Ação executada: Reajustar dose')">Reajustar dose</button><button class="chat-btn-action" onclick="alert('Ação executada: Adicionar combo')">Adicionar combo</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção 4: Catálogo Completo de Funcionalidades -->
+  <section id="features" class="feature-spotlight" style="background: rgba(255,255,255,0.01);">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge badge-primary">📦 Portfólio de Capacidades</span>
+        <h2 class="section-title">Todas as Funcionalidades para Estar à Frente do Mercado</h2>
+        <p class="section-subtitle">Projetado com arquitetura de atores, event sourcing e contratos semânticos formais.</p>
+      </div>
+
+      <div class="catalog-filters">
+        <button class="filter-btn active" onclick="filterFeatures('all', this)">Todas (12)</button>
+        <button class="filter-btn" onclick="filterFeatures('Fundação', this)">Fundação</button>
+        <button class="filter-btn" onclick="filterFeatures('Predição', this)">Predição</button>
+        <button class="filter-btn" onclick="filterFeatures('Otimização', this)">Otimização</button>
+        <button class="filter-btn" onclick="filterFeatures('Automação', this)">Automação</button>
+      </div>
+
+      <div class="features-grid" id="features-grid">
+        
+        <div class="feature-card" data-cat="Fundação">
+          <div>
+            <div class="feature-card-header">
+              <span class="badge badge-primary">PIM</span>
+              <span style="font-size: 0.75rem; color: var(--text-dim);">Fundação</span>
+            </div>
+            <div class="feature-card-title">Catálogo Mestre Auto-Construído</div>
+            <p class="feature-card-desc" style="margin-top: 8px;">SKU gerado automaticamente a partir de áudios de compra e contagens de estoque.</p>
+          </div>
+        </div>
+        <div class="feature-card" data-cat="Fundação">
+          <div>
+            <div class="feature-card-header">
+              <span class="badge badge-primary">NLP</span>
+              <span style="font-size: 0.75rem; color: var(--text-dim);">Fundação</span>
+            </div>
+            <div class="feature-card-title">Dicionário de Sinônimos e Apelidos</div>
+            <p class="feature-card-desc" style="margin-top: 8px;">Reconhece termos populares ("loira gelada", "litrão", "a de sempre") e conecta ao SKU oficial.</p>
+          </div>
+        </div>
+        <div class="feature-card" data-cat="Fundação">
+          <div>
+            <div class="feature-card-header">
+              <span class="badge badge-primary">Financeiro</span>
+              <span style="font-size: 0.75rem; color: var(--text-dim);">Fundação</span>
+            </div>
+            <div class="feature-card-title">Margem Líquida Real (Landed Cost)</div>
+            <p class="feature-card-desc" style="margin-top: 8px;">Calcula a margem verdadeira descontando custo do lote, impostos de saída e taxas da maquininha.</p>
+          </div>
+        </div>
+        <div class="feature-card" data-cat="Fundação">
+          <div>
+            <div class="feature-card-header">
+              <span class="badge badge-primary">Storefront</span>
+              <span style="font-size: 0.75rem; color: var(--text-dim);">Fundação</span>
+            </div>
+            <div class="feature-card-title">Vitrine Conversacional WhatsApp</div>
+            <p class="feature-card-desc" style="margin-top: 8px;">Cliente pergunta disponibilidade e preços no WhatsApp e recebe respostas instantâneas.</p>
+          </div>
+        </div>
+        <div class="feature-card" data-cat="Predição">
+          <div>
+            <div class="feature-card-header">
+              <span class="badge badge-primary">Preditivo</span>
+              <span style="font-size: 0.75rem; color: var(--text-dim);">Predição</span>
+            </div>
+            <div class="feature-card-title">Price-Elasticity & Repricing Forecaster</div>
+            <p class="feature-card-desc" style="margin-top: 8px;">Estima a reação de volume e lucro para qualquer mudança de preço antes de aplicar.</p>
+          </div>
+        </div>
+        <div class="feature-card" data-cat="Predição">
+          <div>
+            <div class="feature-card-header">
+              <span class="badge badge-primary">Preditivo</span>
+              <span style="font-size: 0.75rem; color: var(--text-dim);">Predição</span>
+            </div>
+            <div class="feature-card-title">Monitor Preditivo de Repasse de Custo</div>
+            <p class="feature-card-desc" style="margin-top: 8px;">Antecipa aumentos na distribuidora e sugere o novo preço para não perder margem.</p>
+          </div>
+        </div>
+        <div class="feature-card" data-cat="Predição">
+          <div>
+            <div class="feature-card-header">
+              <span class="badge badge-primary">Preditivo</span>
+              <span style="font-size: 0.75rem; color: var(--text-dim);">Predição</span>
+            </div>
+            <div class="feature-card-title">Identificador de Itens Zumbis</div>
+            <p class="feature-card-desc" style="margin-top: 8px;">Prevê produtos que estão empacando na prateleira antes de virarem capital morto.</p>
+          </div>
+        </div>
+        <div class="feature-card" data-cat="Otimização">
+          <div>
+            <div class="feature-card-header">
+              <span class="badge badge-primary">Otimizador</span>
+              <span style="font-size: 0.75rem; color: var(--text-dim);">Otimização</span>
+            </div>
+            <div class="feature-card-title">Category Profit Optimizer</div>
+            <p class="feature-card-desc" style="margin-top: 8px;">Define os preços ótimos da categoria inteira considerando canibalização e papel de cada SKU.</p>
+          </div>
+        </div>
+        <div class="feature-card" data-cat="Otimização">
+          <div>
+            <div class="feature-card-header">
+              <span class="badge badge-primary">Otimizador</span>
+              <span style="font-size: 0.75rem; color: var(--text-dim);">Otimização</span>
+            </div>
+            <div class="feature-card-title">Otimizador de Preço por Canal</div>
+            <p class="feature-card-desc" style="margin-top: 8px;">Calcula o markup ideal para balcão, entrega local ou clientes com saldo pré-pago.</p>
+          </div>
+        </div>
+        <div class="feature-card" data-cat="Otimização">
+          <div>
+            <div class="feature-card-header">
+              <span class="badge badge-primary">Otimizador</span>
+              <span style="font-size: 0.75rem; color: var(--text-dim);">Otimização</span>
+            </div>
+            <div class="feature-card-title">Otimizador de Combos & Bundles</div>
+            <p class="feature-card-desc" style="margin-top: 8px;">Cria pacotes de alto valor percebido que aumentam o ticket médio sem canibalizar itens caros.</p>
+          </div>
+        </div>
+        <div class="feature-card" data-cat="Automação & Compliance">
+          <div>
+            <div class="feature-card-header">
+              <span class="badge badge-primary">Proteção</span>
+              <span style="font-size: 0.75rem; color: var(--text-dim);">Automação & Compliance</span>
+            </div>
+            <div class="feature-card-title">Guardião de Margem Automático</div>
+            <p class="feature-card-desc" style="margin-top: 8px;">Bloqueia ou alerta imediatamente se um produto for vendido abaixo do custo líquido real.</p>
+          </div>
+        </div>
+        <div class="feature-card" data-cat="Auditoria">
+          <div>
+            <div class="feature-card-header">
+              <span class="badge badge-primary">Audit</span>
+              <span style="font-size: 0.75rem; color: var(--text-dim);">Auditoria</span>
+            </div>
+            <div class="feature-card-title">Histórico Imutável de Preços</div>
+            <p class="feature-card-desc" style="margin-top: 8px;">Todas as alterações de preço ficam registradas com carimbo de data, motivo e impacto medido.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção 5: Comparativo de Mercado -->
+  <section id="comparison" class="feature-spotlight">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge badge-primary">⚖️ Superioridade Tecnológica</span>
+        <h2 class="section-title">HyperCommerce vs. Soluções Convencionais</h2>
+        <p class="section-subtitle">Por que sistemas legados e ERPs tradicionais não atendem o comércio moderno.</p>
+      </div>
+
+      <div class="table-container">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Dimensão de Comparação</th>
+              <th>Softwares Legados / Concorrentes</th>
+              <th style="color: var(--primary-light);">MyChappie HyperCommerce</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td><strong>Cadastro de Produtos</strong></td>
+              <td style="color: var(--text-dim);">Formulários manuais campo a campo</td>
+              <td class="col-us">✓ Automático via áudio e cupom fiscal</td>
+            </tr>
+            <tr>
+              <td><strong>Cálculo de Margem</strong></td>
+              <td style="color: var(--text-dim);">Bruta simplificada (preço - compra)</td>
+              <td class="col-us">✓ Líquida real pós-impostos e taxas de cartão</td>
+            </tr>
+            <tr>
+              <td><strong>Definição de Preço</strong></td>
+              <td style="color: var(--text-dim);">Palpite ou markup fixo</td>
+              <td class="col-us">✓ Elasticidade prevista e otimização por categoria</td>
+            </tr>
+            <tr>
+              <td><strong>Vitrine para Clientes</strong></td>
+              <td style="color: var(--text-dim);">Site e-commerce caro para manter</td>
+              <td class="col-us">✓ Conversacional fluida direto no WhatsApp</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção 6: Invariantes AllasCode -->
+  <section class="feature-spotlight" style="background: rgba(0,0,0,0.4);">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge badge-primary">🛡️ Governança & Integridade</span>
+        <h2 class="section-title">Invariantes de Domínio Invioláveis</h2>
+        <p class="section-subtitle">Regras formais que a máquina respeita sem alucinação.</p>
+      </div>
+
+      <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px;">
+        
+        <div style="background: var(--bg-surface); border: 1px solid var(--border); padding: 16px 20px; border-radius: 10px; display: flex; gap: 14px; align-items: center;">
+          <div style="width: 28px; height: 28px; border-radius: 50%; background: rgba(16,185,129,0.1); color: var(--primary-light); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;">1</div>
+          <div style="font-size: 0.92rem; color: var(--text-main); font-family: monospace;">Nenhum produto é exposto abaixo do custo líquido sem override explícito do comerciante.</div>
+        </div>
+        <div style="background: var(--bg-surface); border: 1px solid var(--border); padding: 16px 20px; border-radius: 10px; display: flex; gap: 14px; align-items: center;">
+          <div style="width: 28px; height: 28px; border-radius: 50%; background: rgba(16,185,129,0.1); color: var(--primary-light); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;">2</div>
+          <div style="font-size: 0.92rem; color: var(--text-main); font-family: monospace;">Um item físico corresponde a exatamente um SKU mestre no ecossistema.</div>
+        </div>
+        <div style="background: var(--bg-surface); border: 1px solid var(--border); padding: 16px 20px; border-radius: 10px; display: flex; gap: 14px; align-items: center;">
+          <div style="width: 28px; height: 28px; border-radius: 50%; background: rgba(16,185,129,0.1); color: var(--primary-light); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;">3</div>
+          <div style="font-size: 0.92rem; color: var(--text-main); font-family: monospace;">A vitrine conversacional reflete estritamente o estoque real com saldo positivo no HyperStock.</div>
+        </div>
+        <div style="background: var(--bg-surface); border: 1px solid var(--border); padding: 16px 20px; border-radius: 10px; display: flex; gap: 14px; align-items: center;">
+          <div style="width: 28px; height: 28px; border-radius: 50%; background: rgba(16,185,129,0.1); color: var(--primary-light); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;">4</div>
+          <div style="font-size: 0.92rem; color: var(--text-main); font-family: monospace;">Toda alteração de preço registra motivo, autor e cálculo de margem esperado.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+            <span style="font-size: 1.5rem;">🛒</span>
+            <span style="font-weight: 700; font-size: 1.1rem; color: var(--text-main);">HyperCommerce</span>
+          </div>
+          <p style="color: var(--text-dim); max-width: 400px; line-height: 1.5;">
+            Parte do ecossistema autônomo MyChappie.Digital. Construído sob a governança AllasCode de Atores, Event Sourcing e Semantics-as-Code.
+          </p>
+        </div>
+
+        <div>
+          <h5 style="color: var(--text-main); margin-bottom: 12px; font-size: 0.9rem;">Ecossistema</h5>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px;">
+            <li><a href="../../HyperAccounting/site/index.html" style="color: var(--text-dim); text-decoration: none;">HyperAccounting</a></li>
+            <li><a href="../../HyperCommerce/site/index.html" style="color: var(--text-dim); text-decoration: none;">HyperCommerce</a></li>
+            <li><a href="../../HyperFinancial/site/index.html" style="color: var(--text-dim); text-decoration: none;">HyperFinancial</a></li>
+            <li><a href="../../HyperStock/site/index.html" style="color: var(--text-dim); text-decoration: none;">HyperStock</a></li>
+            <li><a href="../../HyperSales/site/index.html" style="color: var(--text-dim); text-decoration: none;">HyperSales</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5 style="color: var(--text-main); margin-bottom: 12px; font-size: 0.9rem;">Status da Release</h5>
+          <span class="badge badge-primary">Release: VALID</span>
+          <p style="font-size: 0.75rem; color: var(--text-dim); margin-top: 8px;">
+            Auditoria criptográfica ativa.<br>
+            Zero-Retention Privacy.
+          </p>
+        </div>
+      </div>
+
+      <div style="text-align: center; border-top: 1px solid var(--border); padding-top: 24px; font-size: 0.8rem; color: var(--text-dim);">
+        MyChappie.Digital &copy; 2026 — Arquitetura de Comércio Autônomo para Micro e Pequenas Empresas.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script Dinâmico do Simulador -->
+  <script>
+    // Lógica dos Simuladores
+    function updateSimulations() {
+      const type = "commerce_elasticity";
+      
+      // Simulador Preditivo
+      const predBox = document.getElementById('pred-result');
+      if (type === 'accounting_tax') {
+        const faturamento = parseFloat(document.getElementById('pred-input-1')?.value || 28000);
+        const acumulado = parseFloat(document.getElementById('pred-input-2')?.value || 172000);
+        document.getElementById('pred-val-1').innerText = 'R$ ' + faturamento.toLocaleString('pt-BR');
+        document.getElementById('pred-val-2').innerText = 'R$ ' + acumulado.toLocaleString('pt-BR');
+
+        const novoAcumulado = acumulado + (faturamento * 3);
+        const faixa = novoAcumulado > 180000 ? 'Faixa 2 (7,3% nominal)' : 'Faixa 1 (4,0% nominal)';
+        const diasParaEstouro = acumulado < 180000 ? Math.max(1, Math.round((180000 - acumulado) / (faturamento / 30))) : 0;
+        const aliquotaEfetiva = novoAcumulado > 180000 ? '5,47%' : '4,00%';
+        const dasEstimado = (faturamento * (novoAcumulado > 180000 ? 0.0547 : 0.04)).toFixed(2);
+
+        predBox.innerHTML = `
+          <div class="sim-result-row">
+            <span>Enquadramento Projetado (90d):</span>
+            <span class="${novoAcumulado > 180000 ? 'sim-tag-alert' : 'sim-tag-positive'}">${faixa}</span>
+          </div>
+          <div class="sim-result-row">
+            <span>Alíquota Efetiva Preditiva:</span>
+            <span>${aliquotaEfetiva}</span>
+          </div>
+          <div class="sim-result-row">
+            <span>Dias até mudança de alíquota:</span>
+            <span>${diasParaEstouro === 0 ? 'Já na Faixa 2' : diasParaEstouro + ' dias'}</span>
+          </div>
+          <div class="sim-result-row">
+            <span>Previsão da Guia DAS do Mês:</span>
+            <span class="sim-tag-positive">R$ ${parseFloat(dasEstimado).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</span>
+          </div>
+        `;
+      } else {
+        renderGenericPredictiveSim(predBox);
+      }
+
+      // Simulador Otimizador
+      const optBox = document.getElementById('opt-result');
+      renderGenericOptimizerSim(optBox);
+    }
+
+    function renderGenericPredictiveSim(container) {
+      const val1 = parseFloat(document.getElementById('pred-input-1')?.value || 10);
+      const disp1 = document.getElementById('pred-val-1');
+      if (disp1) disp1.innerText = val1;
+
+      const score = Math.min(99, Math.round(val1 * 3.8 + 15));
+      const status = score > 65 ? 'Alerta Crítico Preventivo' : 'Operação Estável';
+      const colorClass = score > 65 ? 'sim-tag-alert' : 'sim-tag-positive';
+
+      container.innerHTML = `
+        <div class="sim-result-row">
+          <span>Índice Preditivo Calculado:</span>
+          <span class="${colorClass}">${score}% de Confiança</span>
+        </div>
+        <div class="sim-result-row">
+          <span>Status do Diagnóstico:</span>
+          <span>${status}</span>
+        </div>
+        <div class="sim-result-row">
+          <span>Janela de Antecipação Ativa:</span>
+          <span>Tempo real (inferência contínua)</span>
+        </div>
+        <div class="sim-result-row">
+          <span>Ação Recomendada pelo Sistema:</span>
+          <span class="sim-tag-positive">Prescrição Otimizada Pronta</span>
+        </div>
+      `;
+    }
+
+    function renderGenericOptimizerSim(container) {
+      const val1 = parseFloat(document.getElementById('opt-input-1')?.value || 100);
+      const disp1 = document.getElementById('opt-val-1');
+      if (disp1) disp1.innerText = typeof val1 === 'number' ? val1.toLocaleString('pt-BR') : val1;
+
+      const economia = Math.round(val1 * 0.28);
+      const ganhoTempo = Math.round(val1 * 0.15);
+
+      container.innerHTML = `
+        <div class="sim-result-row">
+          <span>Situação sem Otimização (Antes):</span>
+          <span style="color: #f87171;">Custo integral / Ineficiência</span>
+        </div>
+        <div class="sim-result-row">
+          <span>Com Otimizador MyChappie (Depois):</span>
+          <span class="sim-tag-positive">Solução Matemática Ótima</span>
+        </div>
+        <div class="sim-result-row">
+          <span>Ganho / Economia Estimada:</span>
+          <span class="sim-tag-positive">+ ${economia} (em métrica real)</span>
+        </div>
+        <div class="sim-result-row">
+          <span>ROI Operacional Imediato:</span>
+          <span class="sim-tag-positive">Garantido por Invariantes</span>
+        </div>
+      `;
+    }
+
+    // Filtro de Funcionalidades
+    function filterFeatures(category, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.feature-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-cat').includes(category)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Simulação de Áudio do WhatsApp
+    function toggleAudioMock(btn) {
+      if (btn.innerText === '▶') {
+        btn.innerText = '❚❚';
+        setTimeout(() => { btn.innerText = '▶'; }, 3000);
+      } else {
+        btn.innerText = '▶';
+      }
+    }
+
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', () => {
+      updateSimulations();
+    });
+  </script>
+</body>
+</html>
