@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HyperCommerce — 2FA Passwordless & Passkey Access</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="../../design-system/auth-2fa.css">
+    <style>
+      :root {
+        --bg-black: #000000;
+        --bg-dark: #050811;
+        --bg-surface: #090e1a;
+        --cyan: #00f2fe;
+        --cyan-glow: rgba(0, 242, 254, 0.35);
+        --purple: #a855f7;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      html, body {
+        width: 100%;
+        min-height: 100vh;
+        overflow-x: hidden;
+        background: var(--bg-black);
+        color: #ffffff;
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+
+      #stage {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        background: radial-gradient(circle at 50% 30%, rgba(0, 242, 254, 0.12) 0%, rgba(168, 85, 247, 0.08) 45%, #000000 80%);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding: 24px 16px 36px;
+      }
+
+      #vignette {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(circle at 50% 20%, rgba(0, 242, 254, 0.15) 0%, transparent 60%),
+                    radial-gradient(circle at 50% 80%, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+      }
+
+      .hero-animation-wrap {
+        position: relative;
+        width: 100%;
+        max-width: 440px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-top: 10px;
+        perspective: 1200px;
+      }
+
+      #mascot-wrap {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 160px;
+      }
+
+      #mascot {
+        display: block;
+        width: min(220px, 50vw);
+        height: auto;
+        transform-origin: center center;
+        opacity: 0;
+        filter: drop-shadow(0 10px 25px rgba(0, 242, 254, 0.3));
+      }
+
+      #text-logo-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 6px;
+      }
+
+      #text-logo {
+        display: block;
+        width: min(280px, 70vw);
+        height: auto;
+        transform-origin: center center;
+        opacity: 0;
+      }
+
+      .auth-2fa-container {
+        width: 100%;
+        max-width: 440px;
+        margin: 0 auto;
+        z-index: 20;
+      }
+
+      #cta-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding: 16px 24px;
+        border-radius: 999px;
+        background: rgba(0, 242, 254, 0.12);
+        border: 2px solid var(--cyan);
+        box-shadow: 0 0 24px rgba(0, 242, 254, 0.35);
+        color: var(--cyan);
+        font-family: 'Space Mono', monospace, sans-serif;
+        font-weight: 800;
+        font-size: 15px;
+        letter-spacing: 0.06em;
+        cursor: pointer;
+        opacity: 0.85;
+        transition: all 0.25s ease;
+      }
+
+      #cta-button.passkey-active {
+        background: linear-gradient(135deg, #00f2fe 0%, #00a8ff 100%);
+        color: #04101c;
+        border-color: #00f2fe;
+        box-shadow: 0 0 35px rgba(0, 242, 254, 0.6);
+      }
+
+      #cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 40px rgba(0, 242, 254, 0.7);
+      }
+
+      .skip-link {
+        font-size: 12px;
+        color: #94a3b8;
+        text-decoration: underline;
+        margin-top: 8px;
+        cursor: pointer;
+        transition: color 0.2s;
+        text-align: center;
+      }
+
+      .skip-link:hover {
+        color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="mychappie-splash">
+      <div id="vignette"></div>
+
+      <div class="hero-animation-wrap">
+        <div id="mascot-wrap">
+          <img id="mascot" src="assets/mascote.png" alt="Mascote MyChappie">
+        </div>
+        <div id="text-logo-wrap">
+          <img id="text-logo" src="assets/text-logo.png" alt="HyperCommerce">
+        </div>
+      </div>
+
+      <div class="auth-2fa-container is-visible" id="auth-container">
+        <div class="auth-card">
+          <div class="auth-header">
+            <h2 class="auth-title">
+              <span>🔐</span> Acesso 2FA Passwordless
+            </h2>
+            <p class="auth-subtitle">
+              Digite seu WhatsApp para receber o Magic Link de <strong>HyperCommerce</strong> e validar sua Passkey.
+            </p>
+          </div>
+
+          <div class="auth-input-group">
+            <label class="auth-label" for="whatsapp-input">Seu WhatsApp</label>
+            <div class="auth-input-wrapper">
+              <span class="auth-prefix">🇧🇷 +55</span>
+              <input type="tel" class="auth-input" id="whatsapp-input" placeholder="(15) 99767-6610" value="15997676610" autocomplete="tel">
+            </div>
+          </div>
+
+          <button type="button" class="auth-btn-primary" id="send-magic-btn">
+            <span>📲 Enviar Magic Link no WhatsApp</span>
+          </button>
+
+          <div class="magic-link-feedback" id="magic-link-feedback"></div>
+
+          <div class="passkey-cta-wrap">
+            <div class="passkey-status-indicator" id="passkey-status" style="display: none;">
+              <div class="passkey-pulse-dot"></div>
+              <span>Passkey pronta para autenticação</span>
+            </div>
+
+            <button type="button" id="cta-button">
+              <span>🔑 ENTRAR</span>
+            </button>
+
+            <a href="/" class="skip-link">
+              🏠 Acessar painel HyperCommerce
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../../design-system/auth-2fa.js"></script>
+    <script src="site.js"></script>
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        if (window.MyChappieAuth2FA) {
+          new window.MyChappieAuth2FA.Auth2FAController({
+            moduleName: 'HyperCommerce',
+            apiBase: '',
+            onAuthenticated: (dynamicRoute) => {
+              console.log('Autenticado com sucesso em HyperCommerce na rota dinâmica:', dynamicRoute);
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

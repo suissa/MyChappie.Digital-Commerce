@@ -1,0 +1,29 @@
+module:
+  id: hypercommerce
+  name: HyperCommerce
+  capabilities:
+    - catalog
+    - pricing
+    - storefront
+    - assortment
+  api:
+    status: specification-only
+    evidence: docs/IMPLEMENTATION_PLAN.md
+
+mcp:
+  transports:
+    stdio:
+      enabled: true
+    rest:
+      enabled: true
+      host: 127.0.0.1
+      port: 7411
+    websocket:
+      enabled: true
+      host: 127.0.0.1
+      port: 7412
+    nats:
+      enabled: true
+      url: "nats://127.0.0.1:60001"
+      subject: hypercommerce.rpc
+      queue: hypercommerce
